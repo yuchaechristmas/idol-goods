@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 스타봉봉 — K-POP 굿즈샵</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'Cafe24SsurroundAir';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+}
+:root {
+  --main:    #f19ec2;
+  --main2:   #e8809e;
+  --bg:      #fbfbe2;
+  --dark:    #7a4a5e;
+  --mid:     #c47a9a;
+  --light:   #fde8f2;
+  --peach:   #ffd9c0;
+  --yellow:  #fff0b0;
+  --coral:   #ffb8c8;
+  --apricot: #ffc8a0;
+  --card:    #f5f5d0;
+  --border:  #f5c8dc;
+  --shadow:  rgba(241,158,194,0.22);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Cafe24SsurroundAir','Nunito',sans-serif;color:var(--dark);min-height:100vh;}
+
+/* ── NAV ── */
+.nav{
+  background:linear-gradient(135deg,#fde0ee,#fdf4cc);
+  border-bottom:2.5px dashed var(--border);
+  padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;position:sticky;top:0;z-index:100;
+  box-shadow:0 3px 16px var(--shadow);
+}
+.logo{font-size:1.35rem;color:var(--dark);display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo svg{animation:spin 8s linear infinite;}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.cart-btn{
+  background:var(--main);color:var(--bg);
+  border:none;border-radius:50px;padding:9px 18px;
+  font-family:inherit;font-size:0.85rem;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  box-shadow:0 3px 12px var(--shadow);
+  transition:all .2s;
+}
+.cart-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow);}
+.cart-count{
+  background:var(--bg);color:var(--main2);
+  border-radius:50%;width:20px;height:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.72rem;font-weight:800;
+}
+
+/* ── 히어로 배너 ── */
+.hero{
+  background:linear-gradient(160deg,#fde0ee 0%,#fdf0c8 55%,#ffe8d0 100%);
+  padding:40px 24px 36px;text-align:center;
+  border-bottom:2px dashed var(--border);position:relative;overflow:hidden;
+}
+.hero-star{position:absolute;opacity:0.2;animation:sfloat 5s ease-in-out infinite;pointer-events:none;}
+@keyframes sfloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(18deg)}}
+.hero h1{font-size:1.75rem;margin-bottom:8px;color:var(--dark);}
+.hero h1 em{color:var(--main);font-style:normal;}
+.hero p{font-size:0.9rem;color:var(--mid);margin-bottom:20px;}
+.hero-search{
+  display:flex;gap:0;max-width:480px;margin:0 auto;
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:50px;overflow:hidden;
+  box-shadow:0 4px 16px var(--shadow);
+}
+.hero-search input{
+  flex:1;border:none;background:transparent;
+  padding:12px 20px;font-family:inherit;font-size:0.9rem;color:var(--dark);outline:none;
+}
+.hero-search input::placeholder{color:var(--mid);}
+.hero-search button{
+  background:var(--main);border:none;color:var(--bg);
+  padding:12px 22px;cursor:pointer;font-family:inherit;font-size:0.88rem;
+  transition:background .2s;
+}
+.hero-search button:hover{background:var(--main2);}
+
+/* ── 레이아웃 ── */
+.page{display:flex;max-width:1100px;margin:0 auto;padding:28px 20px;gap:24px;}
+
+/* ── 사이드바 ── */
+.sidebar{width:220px;flex-shrink:0;}
+.side-box{
+  background:var(--card);border:2px solid var(--border);
+  border-radius:20px;padding:18px;margin-bottom:16px;
+}
+.side-title{font-size:0.82rem;color:var(--mid);font-weight:700;letter-spacing:.05em;margin-bottom:12px;}
+.filter-btn{
+  display:block;width:100%;text-align:left;
+  background:transparent;border:1.5px solid var(--border);
+  border-radius:50px;padding:7px 14px;
+  font-family:inherit;font-size:0.82rem;color:var(--dark);
+  cursor:pointer;margin-bottom:7px;transition:all .18s;
+}
+.filter-btn:hover,.filter-btn.active{
+  background:var(--main);color:var(--bg);
+  border-color:var(--main);
+  box-shadow:0 3px 10px var(--shadow);
+}
+.price-range{display:flex;flex-direction:column;gap:8px;}
+.price-range input[type=range]{
+  -webkit-appearance:none;width:100%;height:6px;
+  border-radius:3px;background:var(--border);outline:none;
+}
+.price-range input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:var(--main);cursor:pointer;
+}
+.price-label{font-size:0.78rem;color:var(--mid);text-align:right;}
+
+/* ── 메인 상품 영역 ── */
+.main-area{flex:1;min-width:0;}
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;flex-wrap:wrap;gap:10px;
+}
+.result-count{font-size:0.85rem;color:var(--mid);}
+.result-count strong{color:var(--dark);}
+.sort-sel{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:50px;padding:7px 16px;
+  font-family:inherit;font-size:0.82rem;color:var(--dark);cursor:pointer;outline:none;
+}
+
+/* 아이돌 탭 */
+.idol-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.idol-tab{
+  border-radius:999px;padding:7px 16px;border:2px solid var(--border);
+  background:var(--card);color:var(--dark);font-family:inherit;
+  font-size:0.82rem;cursor:pointer;transition:all .18s;white-space:nowrap;
+}
+.idol-tab:hover,.idol-tab.active{
+  background:var(--main);color:var(--bg);border-color:var(--main);
+  box-shadow:0 3px 10px var(--shadow);
+}
+
+/* ── 상품 그리드 ── */
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:16px;
+}
+.product-card{
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:20px;overflow:hidden;cursor:pointer;
+  transition:transform .22s,box-shadow .22s;
+  position:relative;
+}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 14px 32px var(--shadow);}
+
+.product-img{
+  width:100%;aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.2rem;position:relative;overflow:hidden;
+}
+.badge-new,.badge-hot,.badge-sale{
+  position:absolute;top:10px;left:10px;
+  border-radius:999px;padding:3px 10px;font-size:0.68rem;font-weight:700;
+  font-family:'Nunito',sans-serif;
+}
+.badge-new{background:var(--apricot);color:#904020;}
+.badge-hot{background:var(--main);color:var(--bg);}
+.badge-sale{background:#ffe050;color:#806010;}
+
+.wish-btn{
+  position:absolute;top:8px;right:10px;
+  background:var(--bg);border:none;border-radius:50%;
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1rem;box-shadow:0 2px 8px var(--shadow);
+  transition:transform .15s;
+}
+.wish-btn:hover{transform:scale(1.2);}
+.wish-btn.active{color:var(--main);}
+
+.product-info{padding:12px 12px 14px;}
+.product-idol{font-size:0.7rem;color:var(--mid);margin-bottom:3px;font-family:'Nunito',sans-serif;font-weight:700;}
+.product-name{font-size:0.88rem;color:var(--dark);margin-bottom:6px;line-height:1.35;}
+.product-price{font-size:1rem;color:var(--dark);font-weight:700;}
+.product-price .og{
+  font-size:0.75rem;color:var(--mid);text-decoration:line-through;margin-right:4px;font-weight:400;
+}
+.add-cart{
+  width:100%;margin-top:8px;padding:8px;
+  background:transparent;border:1.5px solid var(--border);
+  border-radius:50px;font-family:inherit;font-size:0.78rem;color:var(--mid);
+  cursor:pointer;transition:all .18s;
+}
+.add-cart:hover{background:var(--main);border-color:var(--main);color:var(--bg);}
+
+/* 빈 결과 */
+.empty{
+  text-align:center;padding:60px 20px;color:var(--mid);
+  display:none;
+}
+.empty.show{display:block;}
+.empty-icon{font-size:3rem;margin-bottom:12px;}
+
+/* ── 장바구니 드로어 ── */
+.drawer-overlay{
+  display:none;position:fixed;inset:0;background:rgba(122,74,94,0.18);z-index:200;
+}
+.drawer-overlay.open{display:block;}
+.drawer{
+  position:fixed;right:0;top:0;bottom:0;width:340px;
+  background:var(--bg);border-left:2px solid var(--border);
+  z-index:201;transform:translateX(100%);transition:transform .3s ease;
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateX(0);}
+.drawer-head{
+  padding:20px;border-bottom:2px dashed var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg,#fde8f2,#fff8d0);
+}
+.drawer-head h2{font-size:1.1rem;color:var(--dark);}
+.close-btn{
+  background:transparent;border:none;font-size:1.4rem;
+  color:var(--mid);cursor:pointer;padding:4px;
+}
+.drawer-items{flex:1;overflow-y:auto;padding:16px;}
+.cart-item{
+  display:flex;gap:12px;align-items:center;
+  padding:12px 0;border-bottom:1.5px dashed var(--border);
+}
+.cart-item:last-child{border:none;}
+.cart-emoji{font-size:2.2rem;width:52px;height:52px;
+  background:var(--light);border-radius:14px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cart-info{flex:1;min-width:0;}
+.cart-idol{font-size:0.68rem;color:var(--mid);font-family:'Nunito',sans-serif;font-weight:700;}
+.cart-name{font-size:0.83rem;color:var(--dark);margin-bottom:4px;}
+.cart-row{display:flex;align-items:center;gap:8px;}
+.qty-btn{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:50%;width:24px;height:24px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:0.9rem;color:var(--dark);font-family:inherit;
+  transition:background .15s;
+}
+.qty-btn:hover{background:var(--main);color:var(--bg);border-color:var(--main);}
+.qty-num{font-size:0.85rem;color:var(--dark);min-width:16px;text-align:center;}
+.cart-price{font-size:0.85rem;font-weight:700;color:var(--dark);margin-left:auto;}
+.remove-item{background:transparent;border:none;color:var(--mid);cursor:pointer;font-size:1rem;padding:2px;}
+.drawer-foot{
+  padding:18px;border-top:2px dashed var(--border);
+  background:linear-gradient(135deg,#fff8d0,#fde8f2);
+}
+.total-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.total-label{font-size:0.88rem;color:var(--mid);}
+.total-price{font-size:1.2rem;font-weight:700;color:var(--dark);}
+.checkout-btn{
+  width:100%;padding:13px;background:var(--main);color:var(--bg);
+  border:none;border-radius:50px;font-family:inherit;font-size:0.95rem;
+  cursor:pointer;box-shadow:0 4px 14px var(--shadow);transition:all .2s;
+}
+.checkout-btn:hover{background:var(--main2);transform:translateY(-2px);}
+.cart-empty{text-align:center;padding:40px 20px;color:var(--mid);}
+.cart-empty-icon{font-size:2.8rem;margin-bottom:10px;}
+
+/* ── 모달 (상품 상세) ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(122,74,94,0.22);z-index:300;
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:28px;max-width:480px;width:100%;
+  box-shadow:0 20px 60px var(--shadow);overflow:hidden;
+  animation:pop .25s ease;
+}
+@keyframes pop{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-img{
+  width:100%;height:200px;display:flex;align-items:center;
+  justify-content:center;font-size:5rem;
+}
+.modal-body{padding:22px;}
+.modal-idol{font-size:0.75rem;color:var(--mid);font-family:'Nunito',sans-serif;font-weight:700;margin-bottom:4px;}
+.modal-name{font-size:1.2rem;color:var(--dark);margin-bottom:8px;}
+.modal-price{font-size:1.4rem;font-weight:700;color:var(--dark);margin-bottom:12px;}
+.modal-desc{font-size:0.84rem;color:var(--mid);line-height:1.7;margin-bottom:16px;}
+.modal-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+.modal-tag{
+  background:var(--light);color:var(--mid);
+  border-radius:999px;padding:4px 12px;font-size:0.75rem;
+  border:1.5px solid var(--border);
+}
+.modal-actions{display:flex;gap:10px;}
+.modal-cart{
+  flex:1;padding:12px;background:var(--main);color:var(--bg);
+  border:none;border-radius:50px;font-family:inherit;font-size:0.9rem;
+  cursor:pointer;box-shadow:0 4px 14px var(--shadow);transition:all .2s;
+}
+.modal-cart:hover{background:var(--main2);}
+.modal-close{
+  padding:12px 16px;background:var(--card);color:var(--dark);
+  border:2px solid var(--border);border-radius:50px;
+  font-family:inherit;font-size:0.9rem;cursor:pointer;transition:all .2s;
+}
+.modal-close:hover{border-color:var(--main);color:var(--main);}
+
+/* ── 토스트 ── */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--dark);color:var(--bg);
+  border-radius:50px;padding:12px 24px;font-size:0.87rem;
+  box-shadow:0 6px 20px rgba(122,74,94,0.35);z-index:500;
+  transition:transform .3s ease;pointer-events:none;white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── 반응형 ── */
+@media(max-width:700px){
+  .sidebar{display:none;}
+  .product-grid{grid-template-columns:repeat(2,1fr);}
+  .drawer{width:100%;}
+  .page{padding:16px 12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── 네비게이션 ── -->
+<nav class="nav">
+  <div class="logo" onclick="resetAll()">
+    <svg width="26" height="26" viewBox="0 0 36 36">
+      <path d="M18 3l3.2 9.6h10.1l-8.2 5.9 3.1 9.6L18 23.3l-8.2 5.8 3.1-9.6-8.2-5.9h10.1z" fill="#f19ec2"/>
+    </svg>
+    스타봉봉
+  </div>
+  <div class="nav-right">
+    <button class="cart-btn" onclick="toggleDrawer()">
+      🛍️ 장바구니
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── 히어로 ── -->
+<div class="hero">
+  <svg class="hero-star" style="top:12%;left:5%;width:32px;animation-delay:0s"    viewBox="0 0 36 36"><path d="M18 3l3.2 9.6h10.1l-8.2 5.9 3.1 9.6L18 23.3l-8.2 5.8 3.1-9.6-8.2-5.9h10.1z" fill="#f19ec2"/></svg>
+  <svg class="hero-star" style="top:10%;right:6%;width:24px;animation-delay:1.2s" viewBox="0 0 36 36"><path d="M18 3l3.2 9.6h10.1l-8.2 5.9 3.1 9.6L18 23.3l-8.2 5.8 3.1-9.6-8.2-5.9h10.1z" fill="#ffe96a"/></svg>
+  <svg class="hero-star" style="bottom:16%;left:8%;width:18px;animation-delay:2s" viewBox="0 0 36 36"><path d="M18 3l3.2 9.6h10.1l-8.2 5.9 3.1 9.6L18 23.3l-8.2 5.8 3.1-9.6-8.2-5.9h10.1z" fill="#ffc8a0"/></svg>
+  <svg class="hero-star" style="bottom:20%;right:5%;width:20px;animation-delay:0.6s" viewBox="0 0 36 36"><path d="M18 3l3.2 9.6h10.1l-8.2 5.9 3.1 9.6L18 23.3l-8.2 5.8 3.1-9.6-8.2-5.9h10.1z" fill="#ffb8c8"/></svg>
+  <h1>✨ <em>K-POP 공식 굿즈</em>를 한곳에서!</h1>
+  <p>아이돌별 · 굿즈 종류별로 쉽게 찾아보세요 🌸</p>
+  <div class="hero-search">
+    <input type="text" id="searchInput" placeholder="🔍  아이돌, 굿즈 이름 검색..." oninput="applyFilters()">
+    <button onclick="applyFilters()">검색</button>
+  </div>
+</div>
+
+<!-- ── 메인 레이아웃 ── -->
+<div class="page">
+
+  <!-- 사이드바 -->
+  <aside class="sidebar">
+    <div class="side-box">
+      <div class="side-title">🎀 굿즈 종류</div>
+      <button class="filter-btn active" data-type="all" onclick="setType(this,'all')">전체</button>
+      <button class="filter-btn" data-type="응원봉" onclick="setType(this,'응원봉')">⭐ 응원봉</button>
+      <button class="filter-btn" data-type="포토카드" onclick="setType(this,'포토카드')">🖼️ 포토카드</button>
+      <button class="filter-btn" data-type="키링" onclick="setType(this,'키링')">🔑 키링</button>
+      <button class="filter-btn" data-type="인형" onclick="setType(this,'인형')">🧸 인형</button>
+      <button class="filter-btn" data-type="시즌그리팅" onclick="setType(this,'시즌그리팅')">📅 시즌그리팅</button>
+      <button class="filter-btn" data-type="의류" onclick="setType(this,'의류')">👕 의류</button>
+      <button class="filter-btn" data-type="문구" onclick="setType(this,'문구')">✏️ 문구</button>
+      <button class="filter-btn" data-type="생활용품" onclick="setType(this,'생활용품')">☕ 생활용품</button>
+    </div>
+    <div class="side-box">
+      <div class="side-title">💰 가격대</div>
+      <div class="price-range">
+        <input type="range" id="priceRange" min="0" max="100000" step="5000" value="100000" oninput="updatePrice(this.value)">
+        <div class="price-label" id="priceLabel">~ 100,000원</div>
+      </div>
+    </div>
+    <div class="side-box">
+      <div class="side-title">🌸 소속사</div>
+      <button class="filter-btn active" data-agency="all" onclick="setAgency(this,'all')">전체</button>
+      <button class="filter-btn" data-agency="HYBE" onclick="setAgency(this,'HYBE')">HYBE</button>
+      <button class="filter-btn" data-agency="SM" onclick="setAgency(this,'SM')">SM</button>
+      <button class="filter-btn" data-agency="JYP" onclick="setAgency(this,'JYP')">JYP</button>
+      <button class="filter-btn" data-agency="YG" onclick="setAgency(this,'YG')">YG</button>
+      <button class="filter-btn" data-agency="STARSHIP" onclick="setAgency(this,'STARSHIP')">STARSHIP</button>
+    </div>
+  </aside>
+
+  <!-- 메인 -->
+  <div class="main-area">
+
+    <!-- 아이돌 탭 -->
+    <div class="idol-tabs" id="idolTabs">
+      <button class="idol-tab active" data-idol="all" onclick="setIdol(this,'all')">🌟 전체</button>
+      <button class="idol-tab" data-idol="BTS" onclick="setIdol(this,'BTS')">💜 BTS</button>
+      <button class="idol-tab" data-idol="세븐틴" onclick="setIdol(this,'세븐틴')">💎 세븐틴</button>
+      <button class="idol-tab" data-idol="뉴진스" onclick="setIdol(this,'뉴진스')">🐰 뉴진스</button>
+      <button class="idol-tab" data-idol="르세라핌" onclick="setIdol(this,'르세라핌')">🔥 르세라핌</button>
+      <button class="idol-tab" data-idol="aespa" onclick="setIdol(this,'aespa')">🤖 aespa</button>
+      <button class="idol-tab" data-idol="NCT" onclick="setIdol(this,'NCT')">🍊 NCT</button>
+      <button class="idol-tab" data-idol="트와이스" onclick="setIdol(this,'트와이스')">🍭 트와이스</button>
+      <button class="idol-tab" data-idol="스트레이키즈" onclick="setIdol(this,'스트레이키즈')">🐺 스트레이키즈</button>
+      <button class="idol-tab" data-idol="BLACKPINK" onclick="setIdol(this,'BLACKPINK')">🖤 BLACKPINK</button>
+      <button class="idol-tab" data-idol="아이브" onclick="setIdol(this,'아이브')">🌹 아이브</button>
+    </div>
+
+    <!-- 툴바 -->
+    <div class="toolbar">
+      <div class="result-count" id="resultCount">상품 <strong>0</strong>개</div>
+      <select class="sort-sel" id="sortSel" onchange="applyFilters()">
+        <option value="default">기본순</option>
+        <option value="low">낮은 가격순</option>
+        <option value="high">높은 가격순</option>
+        <option value="name">이름순</option>
+      </select>
+    </div>
+
+    <!-- 상품 그리드 -->
+    <div class="product-grid" id="productGrid"></div>
+    <div class="empty" id="emptyMsg">
+      <div class="empty-icon">🔍</div>
+      <div>검색 결과가 없어요 😢<br>다른 키워드로 검색해보세요!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 장바구니 드로어 ── -->
+<div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2>🛍️ 장바구니</h2>
+    <button class="close-btn" onclick="toggleDrawer()">✕</button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot">
+    <div class="total-row">
+      <span class="total-label">총 결제금액</span>
+      <span class="total-price" id="totalPrice">0원</span>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">🌸 구매하기</button>
+  </div>
+</div>
+
+<!-- ── 상품 상세 모달 ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <div class="modal-idol" id="modalIdol"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-price" id="modalPrice"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-actions">
+        <button class="modal-cart" id="modalCartBtn">🛍️ 장바구니 담기</button>
+        <button class="modal-close" onclick="closeModal()">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 토스트 ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════
+// 상품 데이터
+// ════════════════════════════════
+const products = [
+  // BTS
+  {id:1,  idol:'BTS',      agency:'HYBE',     type:'응원봉',   name:'아미밤 4.0 공식 응원봉',          emoji:'💜', bg:'#f0e8ff', price:55000, badge:'hot',  desc:'BTS 공식 응원봉 4세대. 블루투스 원격 제어 기능 탑재. 콘서트 현장에서 하나의 빛의 물결을 만들어요.', tags:['공식','HYBE','블루투스']},
+  {id:2,  idol:'BTS',      agency:'HYBE',     type:'포토카드', name:'BTS 2024 시즌그리팅 포토카드 세트', emoji:'📸', bg:'#fff0f6', price:18000, badge:'new',  desc:'2024 시즌그리팅 전용 포토카드 7종 세트. 멤버별 개인 컷 수록.', tags:['시즌그리팅','7종세트','한정']},
+  {id:3,  idol:'BTS',      agency:'HYBE',     type:'인형',    name:'BTS 타이니탄 멤버 인형 (RM)',      emoji:'🧸', bg:'#fce8ff', price:28000, badge:'',     desc:'BTS 공식 캐릭터 타이니탄 RM 버전. 약 30cm 사이즈로 포근한 질감.', tags:['타이니탄','인형','RM']},
+  {id:4,  idol:'BTS',      agency:'HYBE',     type:'시즌그리팅',name:'BTS 2025 시즌그리팅 세트',        emoji:'📅', bg:'#fff8e0', price:62000, badge:'new',  desc:'달력, 다이어리, 포토카드, DVD 포함 2025 연말 한정 시즌그리팅 세트.', tags:['한정판','다이어리','달력','DVD']},
+  {id:5,  idol:'BTS',      agency:'HYBE',     type:'의류',    name:'BTS 로고 후드티 (크림)',           emoji:'👕', bg:'#fff5ee', price:79000, badge:'',     desc:'BTS 공식 로고가 프린팅된 오버핏 후드티. 소재: 60% 면, 40% 폴리에스터.', tags:['의류','후드티','크림색']},
+  {id:6,  idol:'BTS',      agency:'HYBE',     type:'생활용품', name:'BTS 아미밤 텀블러 350ml',         emoji:'☕', bg:'#fde8f5', price:32000, badge:'',     desc:'BTS 공식 아미밤 디자인 텀블러. 보온 보냉 기능, 350ml 용량.', tags:['텀블러','보온보냉','일상용품']},
+
+  // 세븐틴
+  {id:7,  idol:'세븐틴',   agency:'HYBE',     type:'응원봉',   name:'캐럿봉 4.0 공식 응원봉',           emoji:'💎', bg:'#e8f8ff', price:52000, badge:'hot',  desc:'세븐틴 공식 응원봉 4세대 캐럿봉. 다이아몬드 형태 디자인으로 더욱 반짝반짝!', tags:['공식','HYBE','캐럿봉']},
+  {id:8,  idol:'세븐틴',   agency:'HYBE',     type:'포토카드', name:'세븐틴 FML 앨범 포토카드',         emoji:'🃏', bg:'#fff0f6', price:8000,  badge:'',     desc:'세븐틴 10번째 미니앨범 FML 포함 랜덤 포토카드 1장. 총 13종 중 랜덤.', tags:['랜덤','FML','앨범포함']},
+  {id:9,  idol:'세븐틴',   agency:'HYBE',     type:'키링',    name:'세븐틴 공식 아크릴 키링',          emoji:'🔑', bg:'#fffde8', price:15000, badge:'new',  desc:'세븐틴 캐럿봉 미니어처 아크릴 키링. 가방, 파우치에 달기 좋은 사이즈.', tags:['아크릴','키링','미니어처']},
+  {id:10, idol:'세븐틴',   agency:'HYBE',     type:'문구',    name:'세븐틴 2025 다이어리 세트',        emoji:'📓', bg:'#fff5ee', price:38000, badge:'new',  desc:'2025년 연간 다이어리 + 스티커 + 포토카드 포함 세트. A5 사이즈.', tags:['다이어리','스티커','A5']},
+
+  // 뉴진스
+  {id:11, idol:'뉴진스',   agency:'HYBE',     type:'포토카드', name:'뉴진스 OMG 포토카드 세트',         emoji:'🐰', bg:'#fff0f6', price:22000, badge:'hot',  desc:'뉴진스 OMG 앨범 수록 포토카드 5종 풀세트. 멤버별 개인 컷 포함.', tags:['OMG','풀세트','5종']},
+  {id:12, idol:'뉴진스',   agency:'HYBE',     type:'키링',    name:'뉴진스 버니 아크릴 키링',          emoji:'🐇', bg:'#fde8ff', price:13000, badge:'',     desc:'뉴진스 공식 버니 캐릭터 아크릴 키링. 투명 아크릴 소재, 약 7cm.', tags:['버니','아크릴','공식캐릭터']},
+  {id:13, idol:'뉴진스',   agency:'HYBE',     type:'인형',    name:'뉴진스 버니 봉제인형 (大)',        emoji:'🧸', bg:'#fff8f0', price:35000, badge:'hot',  desc:'뉴진스 공식 마스코트 버니 봉제인형. 약 40cm 대형 사이즈. 초부드러운 소재.', tags:['버니인형','마스코트','봉제']},
+  {id:14, idol:'뉴진스',   agency:'HYBE',     type:'생활용품', name:'뉴진스 버니 머그컵',              emoji:'🍵', bg:'#fff5ee', price:24000, badge:'',     desc:'뉴진스 버니 캐릭터가 새겨진 도자기 머그컵. 용량 300ml, 전자레인지 사용 가능.', tags:['머그컵','도자기','버니']},
+
+  // 르세라핌
+  {id:15, idol:'르세라핌', agency:'HYBE',     type:'응원봉',   name:'르세라핌 공식 응원봉',             emoji:'🔥', bg:'#fff0e8', price:48000, badge:'',     desc:'르세라핌 공식 응원봉. 불꽃 모양의 독특한 디자인. 블루투스 연동 가능.', tags:['공식','HYBE','블루투스']},
+  {id:16, idol:'르세라핌', agency:'HYBE',     type:'의류',    name:'르세라핌 크롭 후드티',             emoji:'👚', bg:'#fde8f5', price:72000, badge:'new',  desc:'르세라핌 공식 크롭 길이 후드티. 다양한 컬러 선택 가능. XS-XL 사이즈.', tags:['크롭','후드티','의류']},
+
+  // aespa
+  {id:17, idol:'aespa',    agency:'SM',       type:'응원봉',   name:'aespa 공식 응원봉 (마이)',         emoji:'🤖', bg:'#e8f8ff', price:49000, badge:'',     desc:'aespa 공식 응원봉 마이(MY). 메탈릭 실버 컬러로 aespa의 미래지향적 세계관 표현.', tags:['공식','SM','메탈릭']},
+  {id:18, idol:'aespa',    agency:'SM',       type:'포토카드', name:'aespa Armageddon 포토카드',      emoji:'🃏', bg:'#fff0f6', price:9000,  badge:'new',  desc:'aespa 정규 2집 Armageddon 앨범 포함 랜덤 포토카드. 4종 버전 중 랜덤.', tags:['Armageddon','랜덤','정규2집']},
+  {id:19, idol:'aespa',    agency:'SM',       type:'키링',    name:'aespa 닝닝 아크릴 키링',          emoji:'🔑', bg:'#fff8e8', price:14000, badge:'',     desc:'aespa 닝닝 포토 아크릴 키링. 약 8cm 크기. 고리 포함.', tags:['닝닝','아크릴','키링']},
+  {id:20, idol:'aespa',    agency:'SM',       type:'문구',    name:'aespa 2025 시즌그리팅',           emoji:'📅', bg:'#f0f8ff', price:58000, badge:'new',  desc:'aespa 2025 시즌그리팅. 달력, 다이어리, 포토카드, 스티커 포함 풀세트.', tags:['시즌그리팅','달력','풀세트']},
+
+  // NCT
+  {id:21, idol:'NCT',      agency:'SM',       type:'응원봉',   name:'NCT 응원봉 (체리밤)',             emoji:'🍊', bg:'#fff0e8', price:51000, badge:'',     desc:'NCT 공식 응원봉 체리밤. 주황빛 LED 발광 디자인으로 콘서트장을 가득 채워요.', tags:['공식','SM','체리밤']},
+  {id:22, idol:'NCT',      agency:'SM',       type:'포토카드', name:'NCT 127 Sticker 포토카드',       emoji:'🃏', bg:'#fff0f6', price:10000, badge:'',     desc:'NCT 127 Sticker 앨범 수록 포토카드 세트. 멤버 9종 + 단체 1종.', tags:['NCT127','Sticker','10종']},
+  {id:23, idol:'NCT',      agency:'SM',       type:'인형',    name:'NCT DREAM 키보미 인형',           emoji:'🧸', bg:'#fdf0ff', price:26000, badge:'hot',  desc:'NCT DREAM 공식 캐릭터 키보미 봉제인형. 사랑스러운 곰돌이 디자인.', tags:['NCTDREAM','키보미','봉제인형']},
+
+  // 트와이스
+  {id:24, idol:'트와이스', agency:'JYP',      type:'응원봉',   name:'캔디봉 공식 응원봉',              emoji:'🍭', bg:'#fde8ff', price:46000, badge:'',     desc:'트와이스 공식 응원봉 캔디봉. 막대사탕 모양의 귀여운 디자인. 분홍빛 LED.', tags:['공식','JYP','캔디봉']},
+  {id:25, idol:'트와이스', agency:'JYP',      type:'포토카드', name:'트와이스 READY TO BE 포토카드',  emoji:'🃏', bg:'#fff0f6', price:9500,  badge:'',     desc:'READY TO BE 앨범 수록 포토카드. 멤버별 랜덤 1종. 총 9종 중 랜덤.', tags:['READYTOBE','랜덤','9종']},
+  {id:26, idol:'트와이스', agency:'JYP',      type:'키링',    name:'트와이스 미니 캔디봉 키링',       emoji:'🔑', bg:'#fdf0e8', price:12000, badge:'hot',  desc:'캔디봉 미니어처 아크릴 키링. 트와이스 공식 굿즈. 약 6cm.', tags:['캔디봉','미니어처','키링']},
+  {id:27, idol:'트와이스', agency:'JYP',      type:'생활용품', name:'트와이스 ONCE 에코백',           emoji:'👜', bg:'#fff5ee', price:28000, badge:'',     desc:'트와이스 공식 ONCE 로고 에코백. 면 소재, A4 서류 수납 가능.', tags:['에코백','ONCE','면소재']},
+
+  // 스트레이키즈
+  {id:28, idol:'스트레이키즈',agency:'JYP',   type:'응원봉',   name:'스키즈봉 공식 응원봉',            emoji:'🐺', bg:'#fff0e8', price:53000, badge:'',     desc:'스트레이키즈 공식 응원봉 스키즈봉. 검은색과 노란색 LED 발광.', tags:['공식','JYP','스키즈봉']},
+  {id:29, idol:'스트레이키즈',agency:'JYP',   type:'포토카드', name:'SKZ 5-STAR 포토카드 세트',       emoji:'🃏', bg:'#fde8f5', price:11000, badge:'',     desc:'스트레이키즈 5-STAR 앨범 포토카드 8종 세트. 멤버 전원 포함.', tags:['5STAR','8종세트','멤버전원']},
+  {id:30, idol:'스트레이키즈',agency:'JYP',   type:'의류',    name:'스키즈 로고 티셔츠 (블랙)',       emoji:'👕', bg:'#f8f0ff', price:55000, badge:'new',  desc:'스트레이키즈 공식 로고 티셔츠. 블랙 컬러. 오버핏 핏감.', tags:['티셔츠','로고','블랙','의류']},
+
+  // BLACKPINK
+  {id:31, idol:'BLACKPINK',agency:'YG',       type:'응원봉',   name:'BLACKPINK 봉봉바 응원봉 2.0',   emoji:'🖤', bg:'#fff0f6', price:50000, badge:'',     desc:'BLACKPINK 공식 응원봉 봉봉바 2세대. 핑크&블랙 LED. 블루투스 연동.', tags:['공식','YG','봉봉바','블루투스']},
+  {id:32, idol:'BLACKPINK',agency:'YG',       type:'포토카드', name:'BLACKPINK 멤버별 포카 세트',    emoji:'🃏', bg:'#fde8f0', price:16000, badge:'',     desc:'지수, 제니, 로제, 리사 각 1종씩 총 4종 포토카드 세트.', tags:['4종','멤버별','풀세트']},
+  {id:33, idol:'BLACKPINK',agency:'YG',       type:'인형',    name:'BLACKPINK 제니 봉제인형',        emoji:'🧸', bg:'#fff8e8', price:30000, badge:'',     desc:'BLACKPINK 제니 공식 봉제인형. 약 25cm. 트레이드마크 코디 의상 재현.', tags:['제니','봉제인형','의상재현']},
+  {id:34, idol:'BLACKPINK',agency:'YG',       type:'생활용품', name:'BLACKPINK 로고 파우치',         emoji:'👝', bg:'#fde8ff', price:26000, badge:'hot',  desc:'BLACKPINK 공식 로고 파우치. 지퍼 클로저. 다양한 소품 수납에 유용해요.', tags:['파우치','로고','지퍼']},
+
+  // 아이브
+  {id:35, idol:'아이브',   agency:'STARSHIP', type:'응원봉',   name:'아이브 공식 응원봉',              emoji:'🌹', bg:'#fff0f6', price:47000, badge:'',     desc:'아이브 공식 응원봉. 로즈골드 컬러의 우아한 디자인. 블루투스 원격 제어.', tags:['공식','STARSHIP','로즈골드']},
+  {id:36, idol:'아이브',   agency:'STARSHIP', type:'포토카드', name:'아이브 I AM 포토카드',           emoji:'🃏', bg:'#fde8f0', price:9000,  badge:'hot',  desc:'아이브 I AM 앨범 포토카드. 멤버별 랜덤 1종. 총 6종 중 랜덤.', tags:['IAM','랜덤','6종']},
+  {id:37, idol:'아이브',   agency:'STARSHIP', type:'키링',    name:'아이브 장원영 포토 키링',         emoji:'🌸', bg:'#fff5ee', price:13500, badge:'new',  desc:'아이브 장원영 공식 포토 아크릴 키링. 약 8cm. 반짝이 효과 인쇄.', tags:['장원영','아크릴','반짝이']},
+  {id:38, idol:'아이브',   agency:'STARSHIP', type:'문구',    name:'아이브 2025 다이어리',            emoji:'📔', bg:'#fff8f0', price:36000, badge:'',     desc:'아이브 2025 공식 다이어리. A5 사이즈. 월간/주간 플래너 포함. 포토카드 부록.', tags:['다이어리','A5','플래너','포토카드']},
+];
+
+// ════════════════════════════════
+// 상태
+// ════════════════════════════════
+let cart = [];
+let currentIdol    = 'all';
+let currentType    = 'all';
+let currentAgency  = 'all';
+let maxPrice       = 100000;
+let currentModal   = null;
+
+// ════════════════════════════════
+// 렌더
+// ════════════════════════════════
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const sort = document.getElementById('sortSel').value;
+
+  let result = products.filter(p => {
+    const matchIdol   = currentIdol   === 'all' || p.idol   === currentIdol;
+    const matchType   = currentType   === 'all' || p.type   === currentType;
+    const matchAgency = currentAgency === 'all' || p.agency === currentAgency;
+    const matchPrice  = p.price <= maxPrice;
+    const matchSearch = !q || p.name.toLowerCase().includes(q)
+                           || p.idol.toLowerCase().includes(q)
+                           || p.type.toLowerCase().includes(q)
+                           || p.tags.some(t => t.toLowerCase().includes(q));
+    return matchIdol && matchType && matchAgency && matchPrice && matchSearch;
+  });
+
+  if (sort === 'low')  result.sort((a,b) => a.price - b.price);
+  if (sort === 'high') result.sort((a,b) => b.price - a.price);
+  if (sort === 'name') result.sort((a,b) => a.name.localeCompare(b.name,'ko'));
+
+  renderProducts(result);
+  document.getElementById('resultCount').innerHTML = `상품 <strong>${result.length}</strong>개`;
+  document.getElementById('emptyMsg').classList.toggle('show', result.length === 0);
+}
+
+function renderProducts(list) {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" onclick="openModal(${p.id})">
+      <div class="product-img" style="background:${p.bg}">
+        ${p.badge==='new'  ? '<span class="badge-new">NEW</span>'  : ''}
+        ${p.badge==='hot'  ? '<span class="badge-hot">🔥 HOT</span>' : ''}
+        ${p.badge==='sale' ? '<span class="badge-sale">SALE</span>' : ''}
+        <button class="wish-btn ${isWished(p.id)?'active':''}"
+          onclick="event.stopPropagation();toggleWish(${p.id},this)"
+          title="찜하기">♥</button>
+        ${p.emoji}
+      </div>
+      <div class="product-info">
+        <div class="product-idol">${p.idol} · ${p.type}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">${p.price.toLocaleString()}원</div>
+        <button class="add-cart" onclick="event.stopPropagation();addToCart(${p.id})">+ 장바구니</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════
+// 찜
+// ════════════════════════════════
+let wished = new Set();
+function isWished(id) { return wished.has(id); }
+function toggleWish(id, btn) {
+  if (wished.has(id)) { wished.delete(id); btn.classList.remove('active'); showToast('찜 목록에서 제거했어요 💔'); }
+  else                { wished.add(id);    btn.classList.add('active');    showToast('찜 목록에 추가했어요 💕'); }
+}
+
+// ════════════════════════════════
+// 필터 세터
+// ════════════════════════════════
+function setIdol(el, val) {
+  currentIdol = val;
+  document.querySelectorAll('.idol-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+function setType(el, val) {
+  currentType = val;
+  document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+function setAgency(el, val) {
+  currentAgency = val;
+  document.querySelectorAll('[data-agency]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+function updatePrice(val) {
+  maxPrice = parseInt(val);
+  document.getElementById('priceLabel').textContent = `~ ${Number(val).toLocaleString()}원`;
+  applyFilters();
+}
+function resetAll() {
+  currentIdol = 'all'; currentType = 'all'; currentAgency = 'all'; maxPrice = 100000;
+  document.getElementById('searchInput').value = '';
+  document.getElementById('priceRange').value = 100000;
+  document.getElementById('priceLabel').textContent = '~ 100,000원';
+  document.querySelectorAll('.idol-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector('.idol-tab[data-idol="all"]').classList.add('active');
+  document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-type="all"]').classList.add('active');
+  document.querySelectorAll('[data-agency]').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-agency="all"]').classList.add('active');
+  applyFilters();
+}
+
+// ════════════════════════════════
+// 장바구니
+// ════════════════════════════════
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  const existing = cart.find(x => x.id === id);
+  if (existing) existing.qty++;
+  else cart.push({...p, qty:1});
+  updateCartUI();
+  showToast(`🛍️ "${p.name.slice(0,14)}..." 담았어요!`);
+}
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  updateCartUI();
+}
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) removeFromCart(id);
+  else updateCartUI();
+}
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s + i.qty, 0);
+  const sum   = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  document.getElementById('cartCount').textContent = total;
+  document.getElementById('totalPrice').textContent = sum.toLocaleString() + '원';
+
+  const items = document.getElementById('drawerItems');
+  if (!cart.length) {
+    items.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛍️</div>장바구니가 비어있어요!<br><small style="color:var(--mid)">마음에 드는 굿즈를 담아보세요 🌸</small></div>`;
+    return;
+  }
+  items.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-emoji">${item.emoji}</div>
+      <div class="cart-info">
+        <div class="cart-idol">${item.idol} · ${item.type}</div>
+        <div class="cart-name">${item.name}</div>
+        <div class="cart-row">
+          <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id},+1)">+</button>
+          <span class="cart-price">${(item.price*item.qty).toLocaleString()}원</span>
+        </div>
+      </div>
+      <button class="remove-item" onclick="removeFromCart(${item.id})">✕</button>
+    </div>
+  `).join('');
+}
+function toggleDrawer() {
+  document.getElementById('drawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function checkout() {
+  if (!cart.length) { showToast('장바구니가 비어있어요! 🛍️'); return; }
+  cart = [];
+  updateCartUI();
+  toggleDrawer();
+  showToast('✨ 구매가 완료되었어요! 감사합니다 🌸');
+}
+
+// ════════════════════════════════
+// 모달
+// ════════════════════════════════
+function openModal(id) {
+  const p = products.find(x => x.id === id);
+  currentModal = p;
+  document.getElementById('modalImg').style.background = p.bg;
+  document.getElementById('modalImg').innerHTML = `<span style="font-size:5rem">${p.emoji}</span>`;
+  document.getElementById('modalIdol').textContent = `${p.idol} · ${p.agency} · ${p.type}`;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalPrice').textContent = p.price.toLocaleString() + '원';
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalTags').innerHTML = p.tags.map(t=>`<span class="modal-tag"># ${t}</span>`).join('');
+  document.getElementById('modalCartBtn').onclick = () => { addToCart(id); closeModal(); };
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modalOverlay')) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ════════════════════════════════
+// 토스트
+// ════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ════════════════════════════════
+// 초기화
+// ════════════════════════════════
+applyFilters();
+updateCartUI();
+</script>
+</body>
+</html>
